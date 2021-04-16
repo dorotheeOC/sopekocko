@@ -1,15 +1,18 @@
 const express = require('express');
-const bodyParser = require('body-parser'); //permet l'acces à req.body
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 const path = require('path');
 
-const app = express();
 
-mongoose.connect('mongodb+srv://validateur:motdepasse@cluster0.oxj94.mongodb.net/test?retryWrites=true&w=majority',
+const app = express();
+app.use(helmet());
+app.use(helmet.frameguard({ action: 'deny' }));
+
+mongoose.connect('mongodb+srv://dslite:Seeimreal2112@cluster0.oxj94.mongodb.net/test?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -22,7 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use('/api/sauces', sauceRoutes)
 app.use('/api/auth', userRoutes)

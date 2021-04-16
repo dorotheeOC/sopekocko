@@ -26,20 +26,20 @@ exports.likeSauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 
     } else if (sauce.like == 0) {
-        Sauce.findOne({_id: req.params.id})/* , {usersLiked: {$exists: true, $in: [sauce.userId]}}); */
+        Sauce.findOne({_id: req.params.id})
         .then((sauceLiked) => {
+            let index;
             for (let i = 0; i < sauceLiked.usersLiked.length; i++) {
-                console.log(sauceLiked.usersLiked[i])
-                console.log(sauce.userId)
                 if(sauceLiked.usersLiked[i] == sauce.userId) {
+
                     Sauce.findByIdAndUpdate({_id: req.params.id }, {$inc: {likes: -1}, $pull: {usersLiked: sauce.userId}})
                     .then(() => res.status(200).json({ message: 'Like Canceled !'}))
                     .catch(error => res.status(400).json({ error }));
                 } 
             }
             for (let i = 0; i < sauceLiked.usersDisliked.length; i++) {
-                console.log(sauceLiked.usersDisliked[i])
                 if(sauceLiked.usersDisliked[i] == sauce.userId) {
+
                     Sauce.findByIdAndUpdate({_id: req.params.id }, {$inc: {dislikes: -1}, $pull: {usersDisliked: sauce.userId}})
                     .then(() => res.status(200).json({ message: 'Dislike Canceled !'}))
                     .catch(error => res.status(400).json({ error }));
