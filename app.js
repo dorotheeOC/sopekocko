@@ -12,7 +12,7 @@ const app = express();
 app.use(helmet());
 app.use(helmet.frameguard({ action: 'deny' }));
 
-mongoose.connect('mongodb+srv://validateur:motdepasse@cluster0.oxj94.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://dslite:Seeimreal2112@cluster0.oxj94.mongodb.net/test?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
