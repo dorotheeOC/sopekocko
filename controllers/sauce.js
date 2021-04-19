@@ -28,6 +28,7 @@ exports.likeSauce = (req, res, next) => {
     } else if (sauce.like == 0) {
         Sauce.findOne({_id: req.params.id}, {usersLiked: {$exists: true, $in: [sauce.userId]}})
         .then((sauceLiked) => {
+            let index;
             for (let i = 0; i < sauceLiked.usersLiked.length; i++) {
                 if(sauceLiked.usersLiked[i] == sauce.userId) {
 

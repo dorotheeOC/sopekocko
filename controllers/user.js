@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
 
+
 exports.signup = (req, res, next) => {
     const regex = /[='<>/]/g;
     const passwordValid = req.body.password.match(regex);

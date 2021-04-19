@@ -4,12 +4,28 @@ const helmet = require('helmet');
 const session = require('cookie-session');
 require('dotenv').config()
 console.log(process.env.DB_USER)
+
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 const path = require('path');
 
+
 const app = express();
+app.use(helmet());
+app.use(helmet.frameguard({ action: 'deny' }));
+
+app.use(helmet());
+app.use(helmet.frameguard({ action: 'deny' }));
+
+app.use(session({
+  keys: ['key1', 'key2'],
+  name: 'session',
+  cookie: { 
+    httpOnly: true,
+    expires: new Date( Date.now() + 60 * 60 * 1000 )
+  }
+}));
 
 app.use(helmet());
 app.use(helmet.frameguard({ action: 'deny' }));
