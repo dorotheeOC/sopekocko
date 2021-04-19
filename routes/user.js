@@ -4,9 +4,9 @@ const userCtrl = require('../controllers/user');
 const rateLimit = require("express-rate-limit");
 
 const accountLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, 
-    max: 3, 
-    message: "Trop de tentative, réessayer dans 15 minutes"
+    windowMs: 15 * 60 * 1000,
+    max: 3,
+    message: "Trop de tentatives, réessayer dans 15 minutes"
 });
 
 router.post('/signup', userCtrl.signup);

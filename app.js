@@ -1,9 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
-
 const session = require('cookie-session');
-
+require('dotenv').config()
+console.log(process.env.DB_USER)
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
@@ -27,7 +27,19 @@ app.use(session({
   }
 }));
 
-mongoose.connect('mongodb+srv://validateur:motdepasse@cluster0.oxj94.mongodb.net/test?retryWrites=true&w=majority',
+app.use(helmet());
+app.use(helmet.frameguard({ action: 'deny' }));
+
+app.use(session({
+  keys: ['key1', 'key2'],
+  name: 'session',
+  cookie: { 
+    httpOnly: true,
+    expires: new Date( Date.now() + 60 * 60 * 1000 )
+  }
+}));
+
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.oxj94.mongodb.net/test?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
