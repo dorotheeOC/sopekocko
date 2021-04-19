@@ -1,14 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+
 const session = require('cookie-session');
+
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 const path = require('path');
 
+
 const app = express();
+app.use(helmet());
+app.use(helmet.frameguard({ action: 'deny' }));
 
 app.use(helmet());
 app.use(helmet.frameguard({ action: 'deny' }));
