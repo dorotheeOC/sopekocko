@@ -3,7 +3,7 @@ const fs = require('fs');
 
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
-    delete sauceObject._id;
+    delete sauceObject._id; // envoyé par le front, généré automatiquement par Mongo
     const sauce = new Sauce({
         ...sauceObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -26,9 +26,8 @@ exports.likeSauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 
     } else if (sauce.like == 0) {
-        Sauce.findOne({_id: req.params.id})
+        Sauce.findOne({_id: req.params.id}, {usersLiked: {$exists: true, $in: [sauce.userId]}})
         .then((sauceLiked) => {
-            let index;
             for (let i = 0; i < sauceLiked.usersLiked.length; i++) {
                 if(sauceLiked.usersLiked[i] == sauce.userId) {
 
