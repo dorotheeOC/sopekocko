@@ -14,6 +14,7 @@ Cloner ce repository
 $ npm install
 $ node server
 ```
+Modifier le fichier _.dist.env_ en _.env_ avec les informations fournies
 
 ## Frontend
 
