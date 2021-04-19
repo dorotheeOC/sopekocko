@@ -1,18 +1,28 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+const session = require('cookie-session');
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 const path = require('path');
 
-
 const app = express();
+
 app.use(helmet());
 app.use(helmet.frameguard({ action: 'deny' }));
 
-mongoose.connect('mongodb+srv://dslite:Seeimreal2112@cluster0.oxj94.mongodb.net/test?retryWrites=true&w=majority',
+app.use(session({
+  keys: ['key1', 'key2'],
+  name: 'session',
+  cookie: { 
+    httpOnly: true,
+    expires: new Date( Date.now() + 60 * 60 * 1000 )
+  }
+}));
+
+mongoose.connect('mongodb+srv://validateur:motdepasse@cluster0.oxj94.mongodb.net/test?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
