@@ -26,7 +26,7 @@ exports.likeSauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 
     } else if (sauce.like == 0) {
-        Sauce.findOne({_id: req.params.id}, {usersLiked: {$exists: true, $in: [sauce.userId]}})
+        Sauce.findOne({_id: req.params.id})
         .then((sauceLiked) => {
             let index;
             for (let i = 0; i < sauceLiked.usersLiked.length; i++) {
